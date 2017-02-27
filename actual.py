@@ -9,6 +9,34 @@ import csv
 import codecs
 import struct
 
+reload(sys)  
+sys.setdefaultencoding('utf16')
+
+# Map the bytes to attribute type
+ATTRIBUTE_TYPES = {"10000000": "$STANDARD_INFORMATION",
+                   "20000000": "$ATTRIBUTE_LIST",
+                   "30000000": "$FILE_NAME",
+                   "40000000": "$VOLUME_VERSION",
+                   "40000000": "$OBJECT_ID",
+                   "50000000": "$SECURITY_DESCRIPTOR",
+                   "60000000": "$VOLUME_NAME",
+                   "70000000": "$VOLUME_INFORMATION",
+                   "80000000": "$DATA",
+                   "90000000": "$INDEX_ROOT",
+                   "A0000000": "$INDEX_ALLOCATION",
+                   "B0000000": "$BITMAP",
+                   "C0000000": "$SYMBOLIC_LINK",
+                   "C0000000": "$REPARSE_POINT",
+                   "D0000000": "$EA_INFORMATION",
+                   "E0000000": "$EA",
+                   "F0000000": "$PROPERTY_SET",
+                   "100000000": "$LOGGED_UTILITY_STREAM"}
+
+# Map the bytes to record type
+FILE_FLAGS = {"0": "Deleted",
+              "1": "Record in Use",
+              "2": "Directory",
+              "3": "Directory in Use"}
 
 filesystem_type = {"00": "Unknown or Empty",
               "01": "12-bit FAT",
@@ -22,15 +50,26 @@ filesystem_type = {"00": "Unknown or Empty",
 
 SECTOR_SIZE = 512
 
-def bytes_to_KB(b):
-    return (b / 1024)
-
-def sectors_to_mega(sectors):
-    return (sectors * 512)/ 1024 / 1024
-
 class DiskExplorer():
     def __init__(self, filepath):
         self.filepath = filepath
+
+    def toBigEndian(self, hexString):
+        """ Convert hexString to Big-Endian Format """
+        swapByteOrder = ""
+        character = ""
+        lastpos = 0
+        for x in xrange(0, len(hexString) + 2, 2):
+            character = hexString[lastpos:x] # Take 2 bytes (character)
+            swapByteOrder = character + swapByteOrder # Move to end of string
+            lastpos = x
+        return swapByteOrder
+
+    def get_partition_type(self, fs_type):
+        """ Return partition type """
+        for t in filesystem_type:
+            if t in filesystem_type.keys():
+                return filesystem_type[fs_type]
 
     def read_disk(self, address, reading_partition=True, reading_volume=False):
         """ Search into the disk at given address find and return bytes of information """
@@ -53,22 +92,31 @@ class DiskExplorer():
 
         return disk_data
 
-    def toBigEndian(self, hexString):
-        """ Convert hexString to Big-Endian Format """
-        swapByteOrder = ""
-        character = ""
-        lastpos = 0
-        for x in xrange(0, len(hexString) + 2, 2):
-            character = hexString[lastpos:x] # Take 2 bytes (character)
-            swapByteOrder = character + swapByteOrder # Move to end of string
-            lastpos = x
-        return swapByteOrder
+    def read_FAT_partition_data(self):
+        """ Read 16 byte partition information from disk """
 
-    def get_partition_type(self, fs_type):
-        """ Return partition type """
-        for t in filesystem_type:
-            if t in filesystem_type.keys():
-                return filesystem_type[fs_type]
+        with open(self.filepath, "rb") as f:
+            # first partition is at 0x1BE, convert this to decimal value
+            # seek that amount into the file, read the 16 bytes
+            # and that is the MBR record for the partition
+            # 0x1CE -> 446 - 1st partition
+            # 0x1BE -> 462 - 2nd partition
+            # 0x1DE -> 478 - 3rd partition
+            # 0x1FE -> 494 - 4th partition
+            partitions = [446, 462, 478, 494]
+            part_info = []
+
+            for partition in partitions:
+                part = ""
+                f.seek(partition)
+
+                for x in xrange(1, 17):
+                    byte = f.read(1)
+                    part = part + str(binascii.hexlify(byte).upper())
+
+                part_info.append(part)
+
+        return part_info
 
     def get_partition_data(self):
         """ Pick out relevant partition data """
@@ -121,6 +169,100 @@ class DiskExplorer():
 
 
         return part_data
+
+    def get_FAT_partition_data(self):
+        part_info = self.read_FAT_partition_data()
+        partition_info = self.get_partition_info(part_info)
+
+        return partition_info
+
+    def get_partition_info(self, partition_info):
+        """ Pick out relavant partition information """
+
+        j = 1
+        p_info = []
+        p_flag = ""
+        p_type = ""
+        p_start_addr = ""
+        p_size = ""
+
+        for i in partition_info:
+            p_flag = self.toBigEndian(i[:2] + '0x')
+            p_type = self.toBigEndian(i[8:10] + '0x') + "(" + self.get_partition_type(i[8:10]) + ")"
+            p_start_addr = self.toBigEndian(i[16:24] + '0x') + " (" + str(int(self.toBigEndian(i[16:24]), 16)) + ") "
+            p_size = self.toBigEndian(i[24:34] + '0x') + " (" + str(int(self.toBigEndian(i[24:34]), 16)) + ")"
+
+            p_info.append({"Partition #": j,
+                           "Flag": p_flag,
+                           "Type": p_type,
+                           "Sector Start Address": p_start_addr,
+                           "Partition Size": p_size
+                       })
+            j += 1
+
+        return p_info
+
+    def get_FAT_volume_data(self, address):
+
+        # take address in deciaml
+        res_area_sector = int(address[12:14])
+
+        # create address of sector we need to seek to
+        sector_address = res_area_sector * SECTOR_SIZE
+
+        vol_info = []
+
+        with open(self.filepath, "rb") as f:
+            f.seek(sector_address)
+            for i in xrange(2):
+                part = ""
+                for x in xrange(1, 17):
+                    byte = f.read(1)
+                    part = part + str(binascii.hexlify(byte).upper())
+
+                vol_info.append(part)
+
+        # Reserved Area size in Sectors 0Eh - 2 bytes
+        reserved_area_size = int(self.toBigEndian(vol_info[0][-4:]), 16)
+
+        # FAT size in Sector 16h, 17h  - 1 word
+        fat_size = int(self.toBigEndian(vol_info[1][12:16]), 16)
+
+        # No. of FATs 10h - 1 byte
+        num_fats = int(self.toBigEndian(vol_info[1][:2]), 16)
+
+        # FAT Area = (No. of FATs * FAT size in secors)
+        fat_area_size =  fat_size * num_fats
+
+        # No. of root dir entries 11h - 1 word
+        num_root_dirs = int(self.toBigEndian(vol_info[1][2:6]),16)
+
+        # always 32 bytes for a FAT volume
+        dir_entry_size = 32
+
+        # Root dir size in sectors
+        root_dir_size = (num_root_dirs * dir_entry_size) / SECTOR_SIZE
+
+        # No. of sectors per cluster 0D - 1 byte
+        num_sectors = int(self.toBigEndian(vol_info[0][-6: -4]),16)
+
+        DA_address = res_area_sector + reserved_area_size + fat_area_size
+        cluster_2_addr = DA_address + root_dir_size
+        print "##################################\n",
+        print "***** FAT Volume information *****"
+        print "##################################\n"
+	print "Number of sectors per cluster:", num_sectors
+        print "Fat size:", fat_size
+        print "Fat area size:", fat_area_size
+        print "size of root directory:", root_dir_size
+        print "Cluster #2 location:", cluster_2_addr, "(" + str(cluster_2_addr), "to", str(cluster_2_addr + num_sectors) + ")"
+	print
+
+        return {"First sector of Disk": 0,
+                "First sector of Reserved Area": res_area_sector,
+                "First sector of FAT Area": res_area_sector + reserved_area_size,
+                "First sector of Data Area": DA_address,
+                "Cluster #2 location": cluster_2_addr }
 
     def get_NTFS_volume_data(self, volume_num, address):
         """ Get Information on NTFS Volume"""
@@ -180,185 +322,222 @@ class DiskExplorer():
             print "#######################################"
             NTFS_volume_data = self.get_NTFS_volume_data(i, vol_sec_address)
             volume_data.append(NTFS_volume_data)
-            #print
 
         return part_data, volume_data
 
-def analyse_partition(raw_mbr):
-        partition = {}
-        partition["boot_flag"] = struct.unpack('>b',raw_mbr[0:1])[0]
-        partition["begin_chs"] = int(reverse_bytes(binascii.hexlify(raw_mbr[1:3])),16)
-        partition["type"] = struct.unpack('>b',raw_mbr[4])[0]
-        partition["end_chs"] = int(reverse_bytes(binascii.hexlify(raw_mbr[5:8])),16)
-        partition["start_LBA"] = struct.unpack('i',raw_mbr[8:12])[0]
-        partition["size_in_sectors"] = struct.unpack('i',raw_mbr[12:16])[0]  # partition["size_in_sectors"] = int(reverse_bytes(binascii.hexlify(mbr[12:16])),16)
-        return partition
+    def get_del_file_info(self, root_dir_address, first_cluster):
 
-def reverse_bytes(b):
-    new = ""
-    for x in range(-1, -len(b), -2):
-        new += b[x-1] + b[x]
-    return new
+        file_name = ""
+        file_size = 0
+        start_cluster = ""
 
-def analyse_volume(raw_vol, first_sector):
-        volume = {}
-        volume["no_sectors_per_cluster"] = struct.unpack('>b',raw_vol[13])[0]
-        volume["size_reserved_area_clusters"] = int(reverse_bytes(binascii.hexlify(raw_vol[14:16])),16)
-        volume["size_of_each_fat_sectors"] = int(reverse_bytes(binascii.hexlify(raw_vol[22:24])),16)
-        volume["no_of_fat_copies" ] = struct.unpack('>b', raw_vol[16])[0]
-        volume["fat_area_size"] = volume["size_of_each_fat_sectors"] \
-        * volume["no_of_fat_copies"]
-        volume["max_no_root_dir"] = int(reverse_bytes(binascii.hexlify(raw_vol[17:19])),16)
-        entry_size = 32
-        volume["root_dir_size"] = (volume["max_no_root_dir"]*entry_size)/512
-        volume["cluster_size"] = volume["no_sectors_per_cluster"] * 512
-        volume["DA_address"] = first_sector  + volume["size_reserved_area_clusters"]\
-        + volume["fat_area_size"]
-        volume["cluster2_address"] = volume["DA_address"] + volume["root_dir_size"]
-        print "no_sectors_per_cluster", volume["no_sectors_per_cluster"]
-        print "size_reserved_area_clusters", volume["size_reserved_area_clusters"]
-        print "size fat sector", volume["size_of_each_fat_sectors"]
-        print "no_of_fat_copies", volume["no_of_fat_copies"]
-        print "fat_area_size", volume["fat_area_size"]
-        print "max_no_root_dir", volume["max_no_root_dir"]
-        print "Root Dir Size", volume["root_dir_size"]
-        print "cluster_size", volume["cluster_size"]
-        print "DA_address", volume["DA_address"]
-        print "cluster#2_address", volume["cluster2_address"]
-        return volume
+        root_dir_address = int(root_dir_address)
 
-def analayse_dir_entry(raw_dir_entry):
-        print "\n****************DIR_ENTRY*****************\n"
-        att_type = {"128":"READ_ONLY","64":"HIDDEN","32":"SYSTEM_FILE","16":"VOL_LABEL"\
-        ,"8":"DIRECTORY","4":"ARCHIVE","15":"LONG_FILE_NAME"}
+        # create address of sector we need to seek to
+        sector_address = root_dir_address * SECTOR_SIZE
 
-        d = {}
-        d["deleted"] = False
+        found_deleted = False
+        with open(self.filepath, "rb") as f:
+            f.seek(0)
+            f.seek(sector_address)
+            while found_deleted != True:
+                part = ""
+                byte = f.read(32)
+                # read a byte, if a deleted file, get file info
+                if binascii.hexlify(byte).upper()[:2] == "E5":
+                    found_deleted = True
 
-        if binascii.hexlify(raw_dir_entry[0]) == "e5":
-                print "!!!!!!!!!DELETED!!!!!!!!!!!"
-                d["deleted"] = True
+                    file_name = binascii.hexlify(byte).upper()[:22].decode("hex")
+                    start_cluster = self.toBigEndian(binascii.hexlify(byte[-6:-4])).upper()
+                    file_size = int(self.toBigEndian(binascii.hexlify(byte[-4:])).upper(), 16)
+                    print "\n#########################"
+                    print "***** Deleted Files *****"
+                    print "#########################"
+		    print
+                    print "File Name:", file_name
+                    print "File Size:", size(file_size)
+                    print "Cluster Address:", start_cluster + "h or", str(int(start_cluster,16)) + "d"
+                else:
+                    # seek to next file in root directory
+                    f.read(32)
+                    continue
 
-        d["filename"] = raw_dir_entry[0:11]
-        d["filename"] = binascii.hexlify(d["filename"]).decode("hex")
-        d["attributes"] = int(reverse_bytes(binascii.hexlify(raw_dir_entry[11])),16)
-        d["starting_cluster"] = int(reverse_bytes(binascii.hexlify(raw_dir_entry[26:28])),16)
-        d["size"] =  int(reverse_bytes(binascii.hexlify(raw_dir_entry[28:32])),16)
+            # Calculate cluster sector address
+            file_cluster_addr = int(int(first_cluster) + ((int(start_cluster,16) - 2) * 8))
 
-        try:
-                print "This is a ", att_type[str(d["attributes"])]
-        except:
-                print "Not a valid DIRECTORY"
-        print "filename", d["filename"]
-        print "attributes", d["attributes"]
-        print "starting_cluster", d["starting_cluster"]
-        print "size", d["size"], " Bytes"
-        print "size", bytes_to_KB(int(d["size"])), " KiloBytes"
+            # Seek to deleted file on disk
+            f.seek(file_cluster_addr * SECTOR_SIZE)
 
-def analayse_dir_entry_for_del_files(raw_dir_entry, cluster2_address, no_sectors_per_cluster):
-        d = {}
-        att_type = {"128":"READ_ONLY","64":"HIDDEN","32":"SYSTEM_FILE","16":"VOL_LABEL","8":"DIRECTORY","4":"ARCHIVE","15":"LONG_FILE_NAME"}
-        detected = False
-        if binascii.hexlify(raw_dir_entry[0]) == "e5":
-                print "!!!!!!!!!DELETED!!!!!!!!!!!"
-                d["deleted"] = True
-                detected = True
-                d["filename"] = raw_dir_entry[0:11]
-                d["filename"] = binascii.hexlify(d["filename"]).decode("hex")
-                d["attributes"] = int(reverse_bytes(binascii.hexlify(raw_dir_entry[11])),16)
-                d["starting_cluster"] = int(reverse_bytes(binascii.hexlify(raw_dir_entry[26:28])),16)
-                d["size"] =  int(reverse_bytes(binascii.hexlify(raw_dir_entry[28:32])),16)
-                d["CSA"] = ((cluster2_address) + (d["starting_cluster" ]-2) * 8)
-                print "deleted files name", d["filename"]
-                try:
-                        print "This is a ", att_type[str(d["attributes"])]
-                except:
-                        print "not a valid entry"
-                        print str(d["attributes"])
+            # read 16 bytes of information
+            file_data = f.read(16)
+            print "*****Contents of File*****"
+            print file_data
+	    print
+	    print
 
-                print "starting_cluster", d["starting_cluster"]
-                print "size", d["size"], " Bytes"
-                print "size", bytes_to_KB(int(d["size"])), " KiloBytes"
-                print "Cluster sector address - CSA", d["CSA"]
-                return d, detected
+    def get_attribute_type(self, attr_types):
+        """ Return partition type """
+        for t in ATTRIBUTE_TYPES:
+            if t in ATTRIBUTE_TYPES.keys():
+                return ATTRIBUTE_TYPES[attr_types]
+
+    def get_disk_data(self, address, bytes_to_read):
+        """ Seek to given address and read the amount of bytes given """
+
+        with open(self.filepath, "rb") as f:
+            # seek to sector address
+            print"Address in get disk data:", address
+            f.seek(address)
+
+            # read bytes and convert to hex
+            byte = f.read(bytes_to_read)
+            disk_data = binascii.hexlify(byte).upper()
+
+        return disk_data
+
+    def get_MFT_info(self, address):
+        """ Parse the Master File Table and get record information """
+
+        hasFiles = True
+        record_num = 0
+        rows = []
+        filename = ""
+
+        # If a mft record doesn't have these values defaulted, it will error out
+        dos_permis = 0
+        filename_flags = 0
+        parent_dir_ref = 0
+	count = 1
+        # Parse MFT until no more files left or we reach a BAD file
+        while hasFiles:
+            print
+	    print "#########################\n",
+            print "***** MTF FILE: %i *****" %count
+            print "#########################\n"
+            mft_record = self.get_disk_data(address, 1024)
+            record_num += 1
+            print "magic number:", mft_record[0:8].decode("hex")
+            if mft_record[0:8].decode("hex") != "FILE":
+                # terminate
+                hasFiles = False
+
+            update_sequence_offset  = int(self.toBigEndian(mft_record[8:12]), 16)
+            fixup_entries_array = int(self.toBigEndian(mft_record[12:16]), 16)
+            offset_to_first_attribute = int(self.toBigEndian(mft_record[40:44]), 16)
+            mft_record_flags = str(int(self.toBigEndian(mft_record[44:48]), 16))
+            used_mft_size = int(self.toBigEndian(mft_record[48:56]), 16)
+            allocated_mft_size = int(self.toBigEndian(mft_record[56:64]), 16)
+            reference_to_base_file = int(self.toBigEndian(mft_record[64:80]), 16)
+            first_attr_offset = int(self.toBigEndian(mft_record[40:44]), 16) * 2
+
+            print "update sequence offset:",                update_sequence_offset
+            print "Entries in Fixup Array:",                fixup_entries_array
+            print "Offset to first attribute:",             first_attr_offset/2, "bytes"
+            print "Offset to first attribute in hex:",      offset_to_first_attribute
+            # This tells me that the file is deleted or in use
+            print "Flags:",                                 mft_record_flags
+            print "Used size of MFT entry:",                used_mft_size
+            print "Allocated size of MFT entry:",           allocated_mft_size
+            print
+
+            total_offset = first_attr_offset
+            # Must go to the first attribute offset
+
+            read_attributes = True
+            isFile = True
+	    counter = 1;
+            while read_attributes:
+                type_id        = ATTRIBUTE_TYPES.get(mft_record[total_offset : total_offset + 8],"Unknown attribute")
+                attr_length    = int(self.toBigEndian(mft_record[total_offset + 8: total_offset + 16]), 16)
+                form_code      = self.toBigEndian(mft_record[total_offset + 16 : total_offset + 18])
+                offset_to_name = self.toBigEndian(mft_record[total_offset + 20 : total_offset + 24])
+                attr_id        = self.toBigEndian(mft_record[total_offset + 28 : total_offset + 30])
+
+                print "###################################"
+                print "***** ATTRIBUTE %i INFORMATION *****"% counter
+                print "###################################"
+		print
+                print "Attribute Type is:",  type_id
+                print "Attribute Lengh is:", attr_length
+                print "Offset to Name:",     offset_to_name
+                print "Attribute is:", "Resident" if form_code == "00" else "Non-Resident"
+
+                # Depending on which type, depends on how much of the record to read into
+                file_record_hdr = ""
+
+                if form_code == "00":
+                    # resident attribute
+                    file_record_hdr = mft_record[total_offset: total_offset + 44 ]
+                    # These are for resident attributes ONLY
+                    content_size = int(self.toBigEndian(file_record_hdr[32:40]), 16)
+                    offset_to_content = int(self.toBigEndian(file_record_hdr[40:44]), 16) * 2
+
+                    print "Attribute ID:",      attr_id
+                    print "Content Size:",      content_size
+                    print "Offset to Content:", offset_to_content
+                else:
+                    # non resident attribute
+                    file_record_hdr = mft_record[total_offset: total_offset + 128 ]
+
+                    # These are for non-resident
+                    starting_VCN          = self.toBigEndian(file_record_hdr[32:48])
+                    ending_VCN            = self.toBigEndian(file_record_hdr[48:64])
+                    offset_to_runlist     = self.toBigEndian(file_record_hdr[64:68])
+                    allocated_size        = self.toBigEndian(file_record_hdr[76:92])
+                    actual_size           = self.toBigEndian(file_record_hdr[92:108])
+
+                    print "Attribute ID:",                             attr_id
+                    print "starting Virtual Cluster Number: ",         starting_VCN
+                    print "ending Virtual Cluster Number: ",           ending_VCN
+                    print "offset_to_runlist: ",                       offset_to_runlist
+                    print "allocated_size: ",                          allocated_size
+                    print "actual_size: ",                             actual_size
+
+                file_record = mft_record[total_offset: total_offset + attr_length * 2]
+
+                print "\n=================================\n"
+                print "Bytes for current file attribute:\n"
+                print file_record
+                print "\n=================================\n"
+
+                if not type_id == "$STANDARD_INFORMATION":
+		    read_attributes= False
+
+                # Update the offset after reading current attribute
+                total_offset += attr_length * 2
+		counter = counter + 1
+
+            # Move address to next MFT entry
+            address += 1024
+	    count = count + 1
 
 def main(argv):
     parseMFT = False
-    volume_no = 0
+    volume_no = 2
     file_path = argv[1]
     sys.stdout = open("output.txt", "w")
     disk_explorer = DiskExplorer(file_path)
+    p_info = disk_explorer.get_FAT_partition_data()
+    vol_info = disk_explorer.get_FAT_volume_data(p_info[0].get("Sector Start Address"))
     partition_info, volume_info = disk_explorer.display_disk_info() # Default usage - Get partition information from MBR (Master Boot Record)
-
-    with open(argv[1], "rb") as f:
-    	print "\n$$$$$$$$$$$$$$$$$$$$-DIRECTORY_LISTING ANALYSIS-$$$$$$$$$$$$$$$$$$$$$$"
-    	f.seek(446)
-        mbr =  f.read(16 + 16 + 16 + 16)
-        start = 0
-        analysed_parts = []
-        volume1 = f.read(510) #510 -- removed layout of fat volume
-        for i in [16,32,48,64]:
-                analysed_parts.append(analyse_partition(mbr[start:i]))
-                start = i
-        counter = 0
-        for i in range(4):
-                if not  analysed_parts[i]["type"] == 0:
-                        counter = counter + 1
-
-        f.seek(0)
-        vol1_sector_addr = int(analysed_parts[0]["start_LBA"]) * 512
-        f.seek(vol1_sector_addr)
-        volume1 = f.read(510) #510 -- removed layout of fat volume
-        if not int(analysed_parts[0]["type"]) ==  4:
-            vol1_info = analyse_volume(volume1, int(analysed_parts[0]["start_LBA"]))
-        else:
-            print "First Partition is not fat-16"
-        f.seek(0)
-    	root_dir_sector_address = vol1_info["DA_address"]
-    	f.seek(root_dir_sector_address * 512)
-    	s = vol1_info["root_dir_size"]
-    	vol1_d1 = f.read(s)
-    	analayse_dir_entry(vol1_d1)
-    	starting_address = (root_dir_sector_address * 512)
-    	loop = True
-    	add = 32
-    	while(loop):
-            	f.seek(0)
-            	f.seek(((root_dir_sector_address )* 512) + add)
-            	temp = f.read(32)
-            	if binascii.hexlify(temp[0]) == "00":
-                    	loop = False
-                    	break
-            	analayse_dir_entry(temp)
-            	add = add + 32
-
-        print "\n########################CHECK DELELETED FILES##############################\n"
-        starting_address = (root_dir_sector_address * 512)
-        loop = True
-        add = 0
-        while(loop):
-                f.seek(0)
-                f.seek(((root_dir_sector_address )* 512) + add)
-                temp = f.read(32)
-                if binascii.hexlify(temp[0]) == "00":
-                        loop = False
-                        break
-                status = analayse_dir_entry_for_del_files(temp,vol1_info["cluster2_address"], vol1_info["no_sectors_per_cluster"])
-                if not status == None:
-                        break
-                add = add + 32
-        DELETED_ENTRY = status[0]
-        csa = DELETED_ENTRY["CSA"]
-        deleted_entry_address = csa * 512
-        f.seek(0)
-        f.seek(deleted_entry_address)
-        deleted_contents = f.read(16)
-        print "\n\ndeleted first 16 Bytes Content"
-        print "----------------------------------"
-        print binascii.hexlify(deleted_contents).decode("hex")
-        print "----------------------------------"
-        print "\nPROGRAM TERMINATING SUCCESSFULLY"
+    disk_explorer.get_del_file_info(vol_info.get("First sector of Data Area"),vol_info.get("Cluster #2 location"))
+    mft_cluster_location = volume_info[volume_no].get("MFT_cluster_location")
+    sectors_per_cluster = volume_info[volume_no].get("sectors_per_cluster")
+    mft_logical_addr = mft_cluster_location * sectors_per_cluster
+    mft_physical_addr = 0
+    mft_physical_addr = int(partition_info[volume_no].get("Sector Start Address"),16)
+    mft_physical_addr += mft_logical_addr
+    mft_physical_addr = mft_physical_addr * SECTOR_SIZE
+    print "######################################\n",
+    print "***** NTFS SUPPORTED INFORMATION *****"
+    print "######################################\n"
+    print "MFT Physical Sector Number:", mft_physical_addr / SECTOR_SIZE
+    print "Logical address:",mft_logical_addr
+    print "Sector address:",int(partition_info[volume_no].get("Sector Start Address"),16)
+    disk_explorer.get_MFT_info(mft_physical_addr)
 
 if __name__ == '__main__':
     main(sys.argv)
+
+
 

@@ -1,0 +1,1617 @@
+##################################
+***** FAT Volume information *****
+##################################
+
+Number of sectors per cluster: 8
+Fat size: 251
+Fat area size: 502
+size of root directory: 32
+Cluster #2 location: 599 (599 to 607)
+
+##########################
+***** PARTITION INFO *****
+##########################
+
+Number of Visible Partitions: 3 
+
+Partition # 1
+Start Sector Address: 0x0000003F None
+Partition Size: 514017 Sectors
+Size in MegaBytes (Approximately): 250M
+File System Type: 0x06 None 
+
+Partition # 2
+Start Sector Address: 0x0008D324 None
+Partition Size: 1028160 Sectors
+Size in MegaBytes (Approximately): 502M
+File System Type: 0x0B None 
+
+Partition # 3
+Start Sector Address: 0x00188364 None
+Partition Size: 369495 Sectors
+Size in MegaBytes (Approximately): 180M
+File System Type: 0x07 None 
+
+#######################################
+***** VOLUME INFO FOR PARTITION 0 *****
+#######################################
+
+bytes_per_sector:  512
+sectors_per_cluster:  8
+media_descriptor:  248
+total_sectors:  21990573182571057
+MFT_cluster_location:  19738570719774029
+MFT_copy_cluster_location:  14390546163708244
+clusters_per_MFT_record:  142
+clusters_per_index_buffer:  123
+volume_serial_number:  00 
+
+#######################################
+***** VOLUME INFO FOR PARTITION 1 *****
+#######################################
+
+bytes_per_sector:  512
+sectors_per_cluster:  8
+media_descriptor:  248
+total_sectors:  8589934592
+MFT_cluster_location:  393217
+MFT_copy_cluster_location:  0
+clusters_per_MFT_record:  0
+clusters_per_index_buffer:  176
+volume_serial_number:  59 
+
+#######################################
+***** VOLUME INFO FOR PARTITION 2 *****
+#######################################
+
+bytes_per_sector:  512
+sectors_per_cluster:  8
+media_descriptor:  248
+total_sectors:  369494
+MFT_cluster_location:  4
+MFT_copy_cluster_location:  23093
+clusters_per_MFT_record:  246
+clusters_per_index_buffer:  1
+volume_serial_number:  5D 
+
+
+#########################
+***** Deleted Files *****
+#########################
+
+File Name: ÂOOK    TXT
+File Size: 59K
+Cluster Address: 0013h or 19d
+*****Contents of File*****
+
+
+Section A:  
+
+
+######################################
+***** NTFS SUPPORTED INFORMATION *****
+######################################
+
+MFT Physical Sector Number: 1606532
+Logical address: 32
+Sector address: 1606500
+
+#########################
+***** MTF FILE: 1 *****
+#########################
+
+Address in get disk data: 822544384
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 408
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 74
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+300000006800000000001800000002004A0000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01006C000000000000006C0000000000000600000000000000040324004D0046005400000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 2 *****
+#########################
+
+Address in get disk data: 822545408
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 344
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 112
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 82
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000700000000000180000000200520000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01001000000000000000100000000000000600000000000000080324004D00460054004D00690072007200000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 3 *****
+#########################
+
+Address in get disk data: 822546432
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 344
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 112
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 82
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000700000000000180000000200520000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01000020000000000000002000000000000600000000000000080324004C006F006700460069006C006500000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 4 *****
+#########################
+
+Address in get disk data: 822547456
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 544
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 80
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000680000000000180000000100500000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB010000000000000000000000000000000006000000000000000703240056006F006C0075006D006500
+
+=================================
+
+
+#########################
+***** MTF FILE: 5 *****
+#########################
+
+Address in get disk data: 822548480
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 448
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 112
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 82
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000700000000000180000000200520000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB010010000000000000000A0000000000000600000000000000080324004100740074007200440065006600000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 6 *****
+#########################
+
+Address in get disk data: 822549504
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 3
+Used size of MFT entry: 512
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0126000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 68
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000600000000000180000000100440000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0100000000000000000000000000000000060000100000000001032E0000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 7 *****
+#########################
+
+Address in get disk data: 822550528
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 336
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 80
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000680000000000180000000200500000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01002000000000000090160000000000000600000000000000070324004200690074006D0061007000
+
+=================================
+
+
+#########################
+***** MTF FILE: 8 *****
+#########################
+
+Address in get disk data: 822551552
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 440
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 76
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+300000006800000000001800000002004C0000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB010020000000000000002000000000000006000000000000000503240042006F006F00740000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 9 *****
+#########################
+
+Address in get disk data: 822552576
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 376
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 112
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 03
+Content Size: 82
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000700000000000180000000300520000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB010000000000000000000000000000000006000000000000000803240042006100640043006C0075007300FFFF00000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 10 *****
+#########################
+
+Address in get disk data: 822553600
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 9
+Used size of MFT entry: 680
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000020000000000000000000000000000000000101000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 80
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000680000000000180000000100500000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0100000000000000000000000000000000060000200000000007032400530065006300750072006500
+
+=================================
+
+
+#########################
+***** MTF FILE: 11 *****
+#########################
+
+Address in get disk data: 822554624
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 336
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000001000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 80
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000680000000000180000000200500000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0100000200000000000000020000000000060000000000000007032400550070004300610073006500
+
+=================================
+
+
+#########################
+***** MTF FILE: 12 *****
+#########################
+
+Address in get disk data: 822555648
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 3
+Used size of MFT entry: 640
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000000000000101000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 80
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+30000000680000000000180000000100500000001800010005000000000005000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB010000000000000000000000000000000006000010000000000703240045007800740065006E006400
+
+=================================
+
+
+#########################
+***** MTF FILE: 13 *****
+#########################
+
+Address in get disk data: 822556672
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 288
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $SECURITY_DESCRIPTOR
+Attribute Lengh is: 128
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 100
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+50000000800000000000180000000200640000001800000001000480480000005400000000000000140000000200340002000000000014009F011200010100000000000512000000000018009F011200010200000000000520000000200200000101000000000005120000000102000000000005200000002002000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 14 *****
+#########################
+
+Address in get disk data: 822557696
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 288
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $SECURITY_DESCRIPTOR
+Attribute Lengh is: 128
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 100
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+50000000800000000000180000000200640000001800000001000480480000005400000000000000140000000200340002000000000014009F011200010100000000000512000000000018009F011200010200000000000520000000200200000101000000000005120000000102000000000005200000002002000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 15 *****
+#########################
+
+Address in get disk data: 822558720
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 288
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $SECURITY_DESCRIPTOR
+Attribute Lengh is: 128
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 100
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+50000000800000000000180000000200640000001800000001000480480000005400000000000000140000000200340002000000000014009F011200010100000000000512000000000018009F011200010200000000000520000000200200000101000000000005120000000102000000000005200000002002000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 16 *****
+#########################
+
+Address in get disk data: 822559744
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 1
+Used size of MFT entry: 288
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $SECURITY_DESCRIPTOR
+Attribute Lengh is: 128
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 02
+Content Size: 100
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+50000000800000000000180000000200640000001800000001000480480000005400000000000000140000000200340002000000000014009F011200010100000000000512000000000018009F011200010200000000000520000000200200000101000000000005120000000102000000000005200000002002000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 17 *****
+#########################
+
+Address in get disk data: 822560768
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 18 *****
+#########################
+
+Address in get disk data: 822561792
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 19 *****
+#########################
+
+Address in get disk data: 822562816
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 20 *****
+#########################
+
+Address in get disk data: 822563840
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 21 *****
+#########################
+
+Address in get disk data: 822564864
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 22 *****
+#########################
+
+Address in get disk data: 822565888
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 23 *****
+#########################
+
+Address in get disk data: 822566912
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 24 *****
+#########################
+
+Address in get disk data: 822567936
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 0
+Used size of MFT entry: 136
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 72
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 48
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000048000000000018000000000030000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0106000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+
+
+#########################
+***** MTF FILE: 25 *****
+#########################
+
+Address in get disk data: 822568960
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 13
+Used size of MFT entry: 624
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0126000020000000000000000000000000000000000101000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 78
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+300000006800000000001800000001004E000000180001000B00000000000B000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0100000000000000000000000000000000260000200000000006032400510075006F00740061000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 26 *****
+#########################
+
+Address in get disk data: 822569984
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 13
+Used size of MFT entry: 432
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0126000020000000000000000000000000000000000101000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 104
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 78
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+300000006800000000001800000001004E000000180001000B00000000000B000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01000000000000000000000000000000002600002000000000060324004F0062006A00490064000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 27 *****
+#########################
+
+Address in get disk data: 822571008
+magic number: FILE
+update sequence offset: 48
+Entries in Fixup Array: 3
+Offset to first attribute: 56 bytes
+Offset to first attribute in hex: 56
+Flags: 13
+Used size of MFT entry: 352
+Allocated size of MFT entry: 1024
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: $STANDARD_INFORMATION
+Attribute Lengh is: 96
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 72
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+1000000060000000000018000000000048000000180000000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB0126000020000000000000000000000000000000000101000000000000000000000000000000000000
+
+=================================
+
+###################################
+***** ATTRIBUTE 2 INFORMATION *****
+###################################
+
+Attribute Type is: $FILE_NAME
+Attribute Lengh is: 112
+Offset to Name: 0018
+Attribute is: Resident
+Attribute ID: 01
+Content Size: 82
+Offset to Content: 48
+
+=================================
+
+Bytes for current file attribute:
+
+3000000070000000000018000000010052000000180001000B00000000000B000024638E54CDCB010024638E54CDCB010024638E54CDCB010024638E54CDCB01000000000000000000000000000000002600002000000000080324005200650070006100720073006500000000000000
+
+=================================
+
+
+#########################
+***** MTF FILE: 28 *****
+#########################
+
+Address in get disk data: 822572032
+magic number:     
+update sequence offset: 0
+Entries in Fixup Array: 0
+Offset to first attribute: 0 bytes
+Offset to first attribute in hex: 0
+Flags: 0
+Used size of MFT entry: 0
+Allocated size of MFT entry: 0
+
+###################################
+***** ATTRIBUTE 1 INFORMATION *****
+###################################
+
+Attribute Type is: Unknown attribute
+Attribute Lengh is: 0
+Offset to Name: 0000
+Attribute is: Resident
+Attribute ID: 00
+Content Size: 0
+Offset to Content: 0
+
+=================================
+
+Bytes for current file attribute:
+
+
+
+=================================
+

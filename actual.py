@@ -93,16 +93,9 @@ class DiskExplorer():
         return disk_data
 
     def read_FAT_partition_data(self):
-        """ Read 16 byte partition information from disk """
-
+        """ Read 16 byte partition information from disk
+            for FAT information retiveal part 1 """
         with open(self.filepath, "rb") as f:
-            # first partition is at 0x1BE, convert this to decimal value
-            # seek that amount into the file, read the 16 bytes
-            # and that is the MBR record for the partition
-            # 0x1CE -> 446 - 1st partition
-            # 0x1BE -> 462 - 2nd partition
-            # 0x1DE -> 478 - 3rd partition
-            # 0x1FE -> 494 - 4th partition
             partitions = [446, 462, 478, 494]
             part_info = []
 
@@ -115,7 +108,6 @@ class DiskExplorer():
                     part = part + str(binascii.hexlify(byte).upper())
 
                 part_info.append(part)
-
         return part_info
 
     def get_partition_data(self):
@@ -171,6 +163,7 @@ class DiskExplorer():
         return part_data
 
     def get_FAT_partition_data(self):
+        ''' Pick out the partition data for part 1 of the assignment'''
         part_info = self.read_FAT_partition_data()
         partition_info = self.get_partition_info(part_info)
 
@@ -203,7 +196,7 @@ class DiskExplorer():
         return p_info
 
     def get_FAT_volume_data(self, address):
-
+        '''Get the FAT volume data'''
         # take address in deciaml
         res_area_sector = int(address[12:14])
 
@@ -313,7 +306,7 @@ class DiskExplorer():
             print "Start Sector Address:", part_data[i].get("Sector Start Address"), part_data[i].get("Sector Start Address_str")
             print "Partition Size:", int(part_data[i].get("Partition Size"),16),"Sectors"
             print "Size in MegaBytes (Approximately):", size(int(part_data[i].get("Partition Size"),16) * SECTOR_SIZE)
-            print "File System Type:", part_data[i].get("Type"), part_data[i].get("Type_str"), "\n"
+            print "File System Type:", part_data[i].get("Type"), part_data[i].get("Type_string"), "\n"
 
         for i in xrange(len(part_data)):
             vol_sec_address = int(part_data[i].get("Sector Start Address"),16)  # Get NTFS volume address in decimal
@@ -325,8 +318,8 @@ class DiskExplorer():
 
         return part_data, volume_data
 
-    def get_del_file_info(self, root_dir_address, first_cluster):
-
+    def get_del_file_data(self, root_dir_address, first_cluster):
+        '''Retieve deleted file data'''
         file_name = ""
         file_size = 0
         start_cluster = ""
@@ -346,7 +339,7 @@ class DiskExplorer():
                 # read a byte, if a deleted file, get file info
                 if binascii.hexlify(byte).upper()[:2] == "E5":
                     found_deleted = True
-
+                    # convert to hex
                     file_name = binascii.hexlify(byte).upper()[:22].decode("hex")
                     start_cluster = self.toBigEndian(binascii.hexlify(byte[-6:-4])).upper()
                     file_size = int(self.toBigEndian(binascii.hexlify(byte[-4:])).upper(), 16)
@@ -379,7 +372,7 @@ class DiskExplorer():
         """ Return partition type """
         for t in ATTRIBUTE_TYPES:
             if t in ATTRIBUTE_TYPES.keys():
-                return ATTRIBUTE_TYPES[attr_types]
+                return ATTRIBUTE_TYPES[attr_types] # return the appropriate attribute
 
     def get_disk_data(self, address, bytes_to_read):
         """ Seek to given address and read the amount of bytes given """
@@ -407,6 +400,7 @@ class DiskExplorer():
         dos_permis = 0
         filename_flags = 0
         parent_dir_ref = 0
+        #counter for MTF FILE
 	count = 1
         # Parse MFT until no more files left or we reach a BAD file
         while hasFiles:
@@ -420,7 +414,6 @@ class DiskExplorer():
             if mft_record[0:8].decode("hex") != "FILE":
                 # terminate
                 hasFiles = False
-
             update_sequence_offset  = int(self.toBigEndian(mft_record[8:12]), 16)
             fixup_entries_array = int(self.toBigEndian(mft_record[12:16]), 16)
             offset_to_first_attribute = int(self.toBigEndian(mft_record[40:44]), 16)
@@ -433,7 +426,6 @@ class DiskExplorer():
             print "update sequence offset:",                update_sequence_offset
             print "Entries in Fixup Array:",                fixup_entries_array
             print "Offset to first attribute:",             first_attr_offset/2, "bytes"
-            print "Offset to first attribute in hex:",      offset_to_first_attribute
             # This tells me that the file is deleted or in use
             print "Flags:",                                 mft_record_flags
             print "Used size of MFT entry:",                used_mft_size
@@ -442,10 +434,10 @@ class DiskExplorer():
 
             total_offset = first_attr_offset
             # Must go to the first attribute offset
-
             read_attributes = True
             isFile = True
-	    counter = 1;
+
+	    counter = 1#counter for attributes
             while read_attributes:
                 type_id        = ATTRIBUTE_TYPES.get(mft_record[total_offset : total_offset + 8],"Unknown attribute")
                 attr_length    = int(self.toBigEndian(mft_record[total_offset + 8: total_offset + 16]), 16)
@@ -512,29 +504,35 @@ class DiskExplorer():
 	    count = count + 1
 
 def main(argv):
-    parseMFT = False
-    volume_no = 2
-    file_path = argv[1]
-    sys.stdout = open("output.txt", "w")
-    disk_explorer = DiskExplorer(file_path)
-    p_info = disk_explorer.get_FAT_partition_data()
-    vol_info = disk_explorer.get_FAT_volume_data(p_info[0].get("Sector Start Address"))
+    parseMFT = False # set the MFT being parsed to false
+    volume_no = 2 # set the default volume
+    file_path = argv[1] # set the file path
+
+    sys.stdout = open("output.txt", "w") # open an output file
+    disk_explorer = DiskExplorer(file_path) # set up a new file explorer
+
+    p_info = disk_explorer.get_FAT_partition_data() # get the partition data
+    vol_info = disk_explorer.get_FAT_volume_data(p_info[0].get("Sector Start Address")) # get the partition info at the start sector
+
     partition_info, volume_info = disk_explorer.display_disk_info() # Default usage - Get partition information from MBR (Master Boot Record)
-    disk_explorer.get_del_file_info(vol_info.get("First sector of Data Area"),vol_info.get("Cluster #2 location"))
-    mft_cluster_location = volume_info[volume_no].get("MFT_cluster_location")
-    sectors_per_cluster = volume_info[volume_no].get("sectors_per_cluster")
-    mft_logical_addr = mft_cluster_location * sectors_per_cluster
+    disk_explorer.get_del_file_data(vol_info.get("First sector of Data Area"),vol_info.get("Cluster #2 location"))# Identify deleted files
+
+    mft_cluster_location = volume_info[volume_no].get("MFT_cluster_location")# Get the mft cluster location using the volume number 
+    sectors_per_cluster = volume_info[volume_no].get("sectors_per_cluster")# get the sectors per cluster using the volume number
+
+    mft_logical_addr = mft_cluster_location * sectors_per_cluster# multiple the mft cluster location to the secotrs per cluster to get the logical address
     mft_physical_addr = 0
-    mft_physical_addr = int(partition_info[volume_no].get("Sector Start Address"),16)
-    mft_physical_addr += mft_logical_addr
-    mft_physical_addr = mft_physical_addr * SECTOR_SIZE
+    mft_physical_addr = int(partition_info[volume_no].get("Sector Start Address"),16)#retrive the physical address
+    mft_physical_addr += mft_logical_addr# add the logical addres
+    mft_physical_addr = mft_physical_addr * SECTOR_SIZE# multiply by sector size to get mft file locations
+
     print "######################################\n",
     print "***** NTFS SUPPORTED INFORMATION *****"
     print "######################################\n"
     print "MFT Physical Sector Number:", mft_physical_addr / SECTOR_SIZE
     print "Logical address:",mft_logical_addr
     print "Sector address:",int(partition_info[volume_no].get("Sector Start Address"),16)
-    disk_explorer.get_MFT_info(mft_physical_addr)
+    disk_explorer.get_MFT_info(mft_physical_addr)# Get the mft information  
 
 if __name__ == '__main__':
     main(sys.argv)

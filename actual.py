@@ -122,20 +122,18 @@ class DiskExplorer():
 
         partitions = [446, 462, 478, 494]
         partition_info = []
-
-        part_number = 1
         part_data = []
-        part_flag = ""
-        part_type = ""
+        part_number = 1
         part_start_address = ""
         part_size = ""
+        part_flag = ""
+        part_type = ""
 
         # For each VISIBLE partition, pull out required information
         for p in partitions:
             part_info = self.read_disk(p,True,False) # get partition information
 
-            # get flag, type, start sector address and size in hex
-            part_flag = self.toBigEndian(part_info[:2] + '0x')
+            # get type, start sector address and size in hex
             part_type = self.toBigEndian(part_info[8:10] + '0x')
             part_start_address = self.toBigEndian(part_info[16:24] + '0x')
             part_size = self.toBigEndian(part_info[24:34] + '0x')
@@ -143,20 +141,16 @@ class DiskExplorer():
             # above variables formatted for nice output later
             part_type_string = "(" + self.get_partition_type(part_info[8:10]) + ")"
             part_address_string = "(" + str(int(self.toBigEndian(part_info[16:24]), 16)) + ")"
-            part_size_string = "(" + str(int(self.toBigEndian(part_info[24:34]), 16)) + ")"
 
             # if the partition type is 0x00, it is unassigned
             # Don't add to list of visible partitions, otherwise do
             if part_type != "0x00":
               part_data.append({"Partition #": part_number,
-                             "Flag": part_flag,
                              "Type": part_type,
                              "Sector Start Address": part_start_address,
-                             "Flag_string": part_flag,
-                             "Type_string": part_type_string,
-                             "Sector Start Address_string": part_address_string,
-                             "Partition Size": part_size,
-                             "Partition Size_string": part_size_string, })
+                             "Type String": part_type_string,
+                             "Sector Start Address String": part_address_string,
+                             "Partition Size": part_size,})
             part_number += 1
 
 
@@ -165,31 +159,31 @@ class DiskExplorer():
     def get_FAT_partition_data(self):
         ''' Pick out the partition data for part 1 of the assignment'''
         part_info = self.read_FAT_partition_data()
-        partition_info = self.get_partition_info(part_info)
+        partition_info = self.get_fat_partition_info(part_info)
 
         return partition_info
 
-    def get_partition_info(self, partition_info):
+    def get_fat_partition_info(self, partition_info):
         """ Pick out relavant partition information """
 
         j = 1
-        p_info = []
-        p_flag = ""
-        p_type = ""
-        p_start_addr = ""
-        p_size = ""
+        part_info = []
+        part_flag = ""
+        part_type = ""
+        part_start_addr = ""
+        part_size = ""
 
         for i in partition_info:
-            p_flag = self.toBigEndian(i[:2] + '0x')
-            p_type = self.toBigEndian(i[8:10] + '0x') + "(" + self.get_partition_type(i[8:10]) + ")"
-            p_start_addr = self.toBigEndian(i[16:24] + '0x') + " (" + str(int(self.toBigEndian(i[16:24]), 16)) + ") "
-            p_size = self.toBigEndian(i[24:34] + '0x') + " (" + str(int(self.toBigEndian(i[24:34]), 16)) + ")"
+            part_flag = self.toBigEndian(i[:2] + '0x')
+            part_type = self.toBigEndian(i[8:10] + '0x') + "(" + self.get_partition_type(i[8:10]) + ")"
+            part_start_addr = self.toBigEndian(i[16:24] + '0x') + " (" + str(int(self.toBigEndian(i[16:24]), 16)) + ") "
+            part_size = self.toBigEndian(i[24:34] + '0x') + " (" + str(int(self.toBigEndian(i[24:34]), 16)) + ")"
 
-            p_info.append({"Partition #": j,
-                           "Flag": p_flag,
-                           "Type": p_type,
-                           "Sector Start Address": p_start_addr,
-                           "Partition Size": p_size
+            part_info.append({"Partition #": j,
+                           "Flag": part_flag,
+                           "Type": part_type,
+                           "Sector Start Address": part_start_addr,
+                           "Partition Size": part_size
                        })
             j += 1
 
@@ -272,20 +266,18 @@ class DiskExplorer():
         clusters_per_index_buffer = int(self.toBigEndian(volume_data[136:138]), 16)
         volume_serial_number = volume_data[144:160]
 
-        print  "\nbytes_per_sector: ",  bytes_per_sector
-        print  "sectors_per_cluster: ",  sectors_per_cluster
-        print  "media_descriptor: ",  media_descriptor
-        print  "total_sectors: ",  total_sectors
-        print  "MFT_cluster_location: ",  MFT_cluster_location
-        print  "MFT_copy_cluster_location: ",  MFT_copy_cluster_location
-        print  "clusters_per_MFT_record: ",  clusters_per_MFT_record
-        print  "clusters_per_index_buffer: ",  clusters_per_index_buffer
-        print  "volume_serial_number: ",  volume_serial_number, "\n"
+        print  "\nBytes Per Sector: ",  bytes_per_sector
+        print  "Sectors Per Cluster: ",  sectors_per_cluster
+        print  "Media Descriptor: ",  media_descriptor
+        print  "Total Sectors: ",  total_sectors
+        print  "Managed File Transfer Cluster Location: ",  MFT_cluster_location
+        print  "Managed File Transfer Copy Cluster Location: ",  MFT_copy_cluster_location
+        print  "Clusters Per Managed File Transfer Record: ",  clusters_per_MFT_record
+        print  "Clusters Per Index Buffer: ",  clusters_per_index_buffer
+        print  "Volume Serial Number: ",  volume_serial_number, "\n"
 
-        ntfs_volume_data = {"volume_num": volume_num,
-                         "bytes_per_sector" : bytes_per_sector,
-                         "sectors_per_cluster" : sectors_per_cluster,
-                         "MFT_cluster_location" : MFT_cluster_location}
+        ntfs_volume_data = {"Sectors_Per_Cluster" : sectors_per_cluster,
+                         "Managed_File_Transfer_cluster_location" : MFT_cluster_location}
 
         return ntfs_volume_data
 
@@ -303,10 +295,10 @@ class DiskExplorer():
 
         for i in xrange(len(part_data)):
             print "Partition #", part_data[i].get("Partition #")
-            print "Start Sector Address:", part_data[i].get("Sector Start Address"), part_data[i].get("Sector Start Address_str")
+            print "Start Sector Address:", part_data[i].get("Sector Start Address"), part_data[i].get("Sector Start Address String")
             print "Partition Size:", int(part_data[i].get("Partition Size"),16),"Sectors"
             print "Size in MegaBytes (Approximately):", size(int(part_data[i].get("Partition Size"),16) * SECTOR_SIZE)
-            print "File System Type:", part_data[i].get("Type"), part_data[i].get("Type_string"), "\n"
+            print "File System Type:", part_data[i].get("Type"), part_data[i].get("Type String"), "\n"
 
         for i in xrange(len(part_data)):
             vol_sec_address = int(part_data[i].get("Sector Start Address"),16)  # Get NTFS volume address in decimal
@@ -368,12 +360,6 @@ class DiskExplorer():
 	    print
 	    print
 
-    def get_attribute_type(self, attr_types):
-        """ Return partition type """
-        for t in ATTRIBUTE_TYPES:
-            if t in ATTRIBUTE_TYPES.keys():
-                return ATTRIBUTE_TYPES[attr_types] # return the appropriate attribute
-
     def get_disk_data(self, address, bytes_to_read):
         """ Seek to given address and read the amount of bytes given """
 
@@ -392,7 +378,6 @@ class DiskExplorer():
         """ Parse the Master File Table and get record information """
 
         hasFiles = True
-        record_num = 0
         rows = []
         filename = ""
 
@@ -409,27 +394,25 @@ class DiskExplorer():
             print "***** MTF FILE: %i *****" %count
             print "#########################\n"
             mft_record = self.get_disk_data(address, 1024)
-            record_num += 1
             print "magic number:", mft_record[0:8].decode("hex")
             if mft_record[0:8].decode("hex") != "FILE":
                 # terminate
                 hasFiles = False
-            update_sequence_offset  = int(self.toBigEndian(mft_record[8:12]), 16)
+
+            update_offset  = int(self.toBigEndian(mft_record[8:12]), 16)
             fixup_entries_array = int(self.toBigEndian(mft_record[12:16]), 16)
-            offset_to_first_attribute = int(self.toBigEndian(mft_record[40:44]), 16)
             mft_record_flags = str(int(self.toBigEndian(mft_record[44:48]), 16))
-            used_mft_size = int(self.toBigEndian(mft_record[48:56]), 16)
-            allocated_mft_size = int(self.toBigEndian(mft_record[56:64]), 16)
-            reference_to_base_file = int(self.toBigEndian(mft_record[64:80]), 16)
+            used_mft = int(self.toBigEndian(mft_record[48:56]), 16)
+            allocated_mft = int(self.toBigEndian(mft_record[56:64]), 16)
             first_attr_offset = int(self.toBigEndian(mft_record[40:44]), 16) * 2
 
-            print "update sequence offset:",                update_sequence_offset
-            print "Entries in Fixup Array:",                fixup_entries_array
-            print "Offset to first attribute:",             first_attr_offset/2, "bytes"
+            print "Update Sequence Offset:",                update_offset
+            print "Entries In Fixup Array:",                fixup_entries_array
+            print "Offset To First Attribute:",             first_attr_offset/2, "bytes"
             # This tells me that the file is deleted or in use
             print "Flags:",                                 mft_record_flags
-            print "Used size of MFT entry:",                used_mft_size
-            print "Allocated size of MFT entry:",           allocated_mft_size
+            print "Used Size Of MFT Entry:",                used_mft
+            print "Allocated Size Of MFT Entry:",           allocated_mft
             print
 
             total_offset = first_attr_offset
@@ -479,11 +462,11 @@ class DiskExplorer():
                     actual_size           = self.toBigEndian(file_record_hdr[92:108])
 
                     print "Attribute ID:",                             attr_id
-                    print "starting Virtual Cluster Number: ",         starting_VCN
-                    print "ending Virtual Cluster Number: ",           ending_VCN
-                    print "offset_to_runlist: ",                       offset_to_runlist
-                    print "allocated_size: ",                          allocated_size
-                    print "actual_size: ",                             actual_size
+                    print "Starting Virtual Cluster Number: ",         starting_VCN
+                    print "Ending Virtual Cluster Number: ",           ending_VCN
+                    print "Offset To Runlist: ",                       offset_to_runlist
+                    print "Allocated Size: ",                          allocated_size
+                    print "Actual Size: ",                             actual_size
 
                 file_record = mft_record[total_offset: total_offset + attr_length * 2]
 
@@ -517,8 +500,8 @@ def main(argv):
     partition_info, volume_info = disk_explorer.display_disk_info() # Default usage - Get partition information from MBR (Master Boot Record)
     disk_explorer.get_del_file_data(vol_info.get("First sector of Data Area"),vol_info.get("Cluster #2 location"))# Identify deleted files
 
-    mft_cluster_location = volume_info[volume_no].get("MFT_cluster_location")# Get the mft cluster location using the volume number 
-    sectors_per_cluster = volume_info[volume_no].get("sectors_per_cluster")# get the sectors per cluster using the volume number
+    mft_cluster_location = volume_info[volume_no].get("Managed_File_Transfer_cluster_location")# Get the mft cluster location using the volume number 
+    sectors_per_cluster = volume_info[volume_no].get("Sectors_Per_Cluster")# get the sectors per cluster using the volume number
 
     mft_logical_addr = mft_cluster_location * sectors_per_cluster# multiple the mft cluster location to the secotrs per cluster to get the logical address
     mft_physical_addr = 0
